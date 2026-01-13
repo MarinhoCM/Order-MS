@@ -1,0 +1,29 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model OrderItem {
+  id         Int     @id @default(autoincrement())
+  produto    String
+  quantidade Float
+  preco      Decimal
+  order      Order?  @relation(fields: [orderId], references: [id])
+  orderId    Int?
+
+  @@map("item_pedido")
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  codigoPedido  Int
+  codigoCliente Int
+  itens         OrderItem[]
+  total         Decimal
+
+  @@index([codigoPedido, codigoCliente])
+}
