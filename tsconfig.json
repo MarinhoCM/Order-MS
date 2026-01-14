@@ -13,7 +13,6 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -22,8 +21,14 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@common/*": ["src/common/*"],
-      "@config/*": ["src/config/*"]
+      "@api/*": ["./apps/api/*"],
+      "@api/config/*": ["./apps/api/src/config/*"],
+      "@api/common/*": ["./apps/api/src/common/*"],
+      "@api/infra/*": ["./apps/api/src/infra/*"],
+      "@queue/*": ["./apps/queuems/*"],
+      "@queue/config/*": ["./apps/queuems/src/config/*"],
+      "@queue/common/*": ["./apps/queuems/src/common/*"],
+      "@queue/infra/*": ["./apps/queuems/src/infra/*"]
     }
   }
 }

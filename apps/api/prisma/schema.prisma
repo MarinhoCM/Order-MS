@@ -1,0 +1,98 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Size {
+  PP
+  P
+  M
+  G
+  GG
+}
+
+model Sku {
+  id          Int       @id @default(autoincrement())
+  ean         String    @unique
+  color       String
+  size        Size      @default(M)
+  description String?
+  weight      Float
+  length      Float
+  height      Float
+  width       Float
+  products    Product[]
+
+  @@map("SKU")
+}
+
+model Store {
+  id          Int     @id @default(autoincrement())
+  description String
+  corporeCode String
+  location    String
+  stocks      Stock[]
+
+  @@map("FILIAL")
+}
+
+model Stock {
+  id        Int     @id @default(autoincrement())
+  ammount   Float
+  product   Product @relation(fields: [productId], references: [id])
+  store     Store   @relation(fields: [storeId], references: [id])
+  storeId   Int
+  productId Int
+
+  @@map("ESTOQUE")
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  code        String      @unique
+  description String
+  orderItems  OrderItem[]
+  netValue    Decimal
+  grossValue  Decimal
+  stocks      Stock[]
+  sku         Sku         @relation(fields: [skuId], references: [id])
+  skuId       Int
+
+  @@map("PRODUTO")
+}
+
+model Customer {
+  id       Int     @id @default(autoincrement())
+  name     String
+  password String
+  email    String  @unique
+  orders   Order[]
+
+  @@map("CLIENTE")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  ammount   Float
+  value     Decimal
+  order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   Int?
+
+  @@map("ITEM_PEDIDO")
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  customerId Int
+  value      Decimal
+  items      OrderItem[]
+
+  @@map("PEDIDO")
+}
