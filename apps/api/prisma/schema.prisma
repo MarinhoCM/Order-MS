@@ -27,6 +27,7 @@ model Sku {
   width       Float
   products    Product[]
 
+  @@index([id, ean])
   @@map("SKU")
 }
 
@@ -37,6 +38,7 @@ model Store {
   location    String
   stocks      Stock[]
 
+  @@index([id, corporeCode])
   @@map("FILIAL")
 }
 
@@ -48,6 +50,7 @@ model Stock {
   storeId   Int
   productId Int
 
+  @@index([id, storeId, productId])
   @@map("ESTOQUE")
 }
 
@@ -62,6 +65,7 @@ model Product {
   sku         Sku         @relation(fields: [skuId], references: [id])
   skuId       Int
 
+  @@index([id, code, skuId])
   @@map("PRODUTO")
 }
 
@@ -72,7 +76,19 @@ model Customer {
   email    String  @unique
   orders   Order[]
 
+  @@index([id, email])
   @@map("CLIENTE")
+}
+
+model OrderStatus {
+  id          Int       @id @default(autoincrement())
+  description String
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  @@index([id])
+  @@map("STATUS_PEDIDO")
 }
 
 model OrderItem {
@@ -84,15 +100,21 @@ model OrderItem {
   order     Order?  @relation(fields: [orderId], references: [id])
   orderId   Int?
 
+  @@index([id, productId, orderId])
   @@map("ITEM_PEDIDO")
 }
 
 model Order {
-  id         Int         @id @default(autoincrement())
-  customer   Customer    @relation(fields: [customerId], references: [id])
-  customerId Int
-  value      Decimal
-  items      OrderItem[]
+  id            Int         @id @default(autoincrement())
+  customer      Customer    @relation(fields: [customerId], references: [id])
+  customerId    Int
+  status        OrderStatus @relation(fields: [orderStatusId], references: [id])
+  value         Decimal
+  items         OrderItem[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime?   @updatedAt
+  orderStatusId Int
 
+  @@index([id, customerId, orderStatusId])
   @@map("PEDIDO")
 }

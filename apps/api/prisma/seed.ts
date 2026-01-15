@@ -23,6 +23,10 @@ const getData = (table: string) => {
             { ean: '1000010', color: 'VERMELHA', size: 'M', description: 'CAMISA POLO VERMELHA', weight: 0.1, length: 120, height: 60, width: 40 },
             { ean: '1000011', color: 'VERDE', size: 'M', description: 'CAMISA POLO VERDE', weight: 0.1, length: 120, height: 60, width: 40 }
         ],
+        'status': [
+            { description: 'PENDENTE DE PAGAMENTO' },
+            { description: 'PAGO' },
+        ],
         'product': [
             { code: '1811712531', description: 'Camisa Polo', netValue: 0.0, grossValue: 0.0, sku: '1000007' },
             { code: '8264627776', description: 'Camisa Gola V', netValue: 0.0, grossValue: 0.0, sku: '1000011' },
@@ -70,6 +74,10 @@ async function main() {
     /** SKUS */
     await prisma.sku.createMany({
         data: getData('sku')
+    })
+
+    await prisma.orderStatus.createMany({
+        data: getData('status')
     })
 
     const skus = await prisma.sku.findMany()

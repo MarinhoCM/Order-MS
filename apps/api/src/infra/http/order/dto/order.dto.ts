@@ -1,4 +1,4 @@
-import { IsNumber, ValidateNested } from 'class-validator';
+import { IsDateString, IsNumber, IsOptional, ValidateNested } from 'class-validator';
 
 export class OrderItemCreateDto {
     @IsNumber()
@@ -14,6 +14,50 @@ export class OrderCreateDto {
     customer: number;
     @IsNumber()
     value: number;
+
+    @IsNumber()
+    status: number;
+
     @ValidateNested({ each: true })
-    items: OrderItemCreateDto
+    items: OrderItemCreateDto[]
+}
+
+export class GetOrderParamsQueryDto {
+    @IsOptional()
+    @IsNumber()
+    id: number;
+
+    @IsOptional()
+    @IsDateString()
+    initialDate: string;
+
+    @IsOptional()
+    @IsDateString()
+    finalDate: string;
+
+    @IsOptional()
+    @IsNumber()
+    customerCode: number;
+
+    @IsOptional()
+    @IsNumber()
+    page: number = 1;
+
+    @IsOptional()
+    @IsNumber()
+    limit: number = 10;
+}
+
+export class PatchOrderParamsDto {
+    @IsOptional()
+    @IsNumber()
+    status?: number | undefined;
+
+    @IsOptional()
+    @IsNumber()
+    value?: number | undefined;
+
+    @IsOptional()
+    @ValidateNested({ each: true })
+    items?: OrderItemCreateDto[]
 }

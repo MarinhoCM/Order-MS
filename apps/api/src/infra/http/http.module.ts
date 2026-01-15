@@ -4,4 +4,4 @@ import { OrderModule } from "./order/order.module";
 @Module({
     imports: [OrderModule]
 })
-export class HttpModule {}
+export class HttpModule { }
