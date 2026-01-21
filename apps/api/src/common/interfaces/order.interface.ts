@@ -8,6 +8,7 @@ export interface IOrder {
     customer: number;
     value: number;
     status: number;
+    store: number;
     items: IOrderItem[]
 }
 
