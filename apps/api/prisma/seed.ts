@@ -26,6 +26,7 @@ const getData = (table: string) => {
         'status': [
             { description: 'PENDENTE DE PAGAMENTO' },
             { description: 'PAGO' },
+            { description: 'CANCELADO' },
         ],
         'product': [
             { code: '1811712531', description: 'Camisa Polo', netValue: 0.0, grossValue: 0.0, sku: '1000007' },
