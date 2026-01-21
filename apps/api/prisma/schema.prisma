@@ -37,6 +37,7 @@ model Store {
   corporeCode String
   location    String
   stocks      Stock[]
+  orders      Order[]
 
   @@index([id, corporeCode])
   @@map("FILIAL")
@@ -50,8 +51,31 @@ model Stock {
   storeId   Int
   productId Int
 
-  @@index([id, storeId, productId])
+  @@unique([storeId, productId])
+  @@index([storeId, productId])
   @@map("ESTOQUE")
+}
+
+enum Type {
+  VENDA
+}
+
+model StockMovement {
+  id          Int       @id @default(autoincrement())
+  productId   Int
+  storeId     Int
+  orderId     Int
+  type        Type
+  quantity    Float
+  previousQty Float
+  newQty      Float
+  reason      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  @@unique([storeId, productId, orderId])
+  @@index([productId, storeId, orderId])
+  @@map("MOVIMENTACAO_ESTOQUE")
 }
 
 model Product {
@@ -111,9 +135,11 @@ model Order {
   status        OrderStatus @relation(fields: [orderStatusId], references: [id])
   value         Decimal
   items         OrderItem[]
+  store         Store       @relation(fields: [storeId], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime?   @updatedAt
   orderStatusId Int
+  storeId       Int
 
   @@index([id, customerId, orderStatusId])
   @@map("PEDIDO")
