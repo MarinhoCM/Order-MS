@@ -5,26 +5,26 @@ import { OrderService } from "./order.service";
 @Controller('order/v1')
 export class OrderController {
     constructor(
-        private readonly orderService: OrderService
+        private readonly service: OrderService
     ) { }
 
     @Post('create')
-    async CreateOrder(@Body() data: OrderCreateDto) {
-        return await this.orderService.save(data)
+    async createOrder(@Body() data: OrderCreateDto) {
+        return await this.service.save(data)
     }
 
     @Get('')
-    async GetOrder(@Query() params: GetOrderParamsQueryDto) {
-        return await this.orderService.searchOrder(params)
+    async getOrder(@Query() params: GetOrderParamsQueryDto) {
+        return await this.service.searchOrder(params)
     }
 
     @Patch('edit/:id')
     async editOrder(@Body() data: PatchOrderParamsDto, @Param('id') id: number) {
-        return await this.orderService.editOrder(id, data)
+        return await this.service.editOrder(id, data)
     }
 
     @Delete('cancel/:id')
     async cancelOrder(@Param('id') id: number) {
-        return await this.orderService.cancelOrder(id)
+        return await this.service.cancelOrder(id)
     }
 }

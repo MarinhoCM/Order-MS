@@ -25,6 +25,7 @@ model Sku {
   length      Float
   height      Float
   width       Float
+  active      Boolean   @default(true)
   products    Product[]
 
   @@index([id, ean])
@@ -36,6 +37,7 @@ model Store {
   description String
   corporeCode String
   location    String
+  active      Boolean @default(true)
   stocks      Stock[]
   orders      Order[]
 
@@ -48,6 +50,7 @@ model Stock {
   ammount   Float
   product   Product @relation(fields: [productId], references: [id])
   store     Store   @relation(fields: [storeId], references: [id])
+  active    Boolean @default(true)
   storeId   Int
   productId Int
 
@@ -85,6 +88,7 @@ model Product {
   orderItems  OrderItem[]
   netValue    Decimal
   grossValue  Decimal
+  active      Boolean     @default(true)
   stocks      Stock[]
   sku         Sku         @relation(fields: [skuId], references: [id])
   skuId       Int
@@ -99,6 +103,7 @@ model Customer {
   password String
   email    String  @unique
   orders   Order[]
+  active   Boolean @default(true)
 
   @@index([id, email])
   @@map("CLIENTE")
