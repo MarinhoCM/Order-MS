@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { GetOrderParamsQueryDto, OrderCreateDto, PatchOrderParamsDto } from "./dto/order.dto";
 import { OrderService } from "./order.service";
 
@@ -21,5 +21,10 @@ export class OrderController {
     @Patch('edit/:id')
     async editOrder(@Body() data: PatchOrderParamsDto, @Param('id') id: number) {
         return await this.orderService.editOrder(id, data)
+    }
+
+    @Delete('cancel/:id')
+    async cancelOrder(@Param('id') id: number) {
+        return await this.orderService.cancelOrder(id)
     }
 }

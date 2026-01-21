@@ -1,5 +1,5 @@
-import { OrderRepository } from "@api/infra/database/repository/order.repository";
 import { OrderMapper, ResponseMapper } from "@api/common/mappers";
+import { OrderRepository } from "@api/infra/database/repository/order.repository";
 import { BadRequestException, HttpStatus, Injectable } from "@nestjs/common";
 import { GetOrderParamsQueryDto, OrderCreateDto, PatchOrderParamsDto } from "./dto/order.dto";
 
@@ -38,5 +38,11 @@ export class OrderService {
         const orderModel = OrderMapper.toPrismaUpdateOrderMapper(id, data)
         const resultData = await this.orderRepository.updateOrder(id, orderModel)
         return ResponseMapper.toResult(resultData, HttpStatus.OK, 'The order was successfully edited.')
+    }
+
+    async cancelOrder(orderId: number) {
+        if (!orderId) throw new BadRequestException('You need to provide the orderId to perform the cancellation.')
+        const resultData = await this.orderRepository.cancelOrder(orderId)
+        return ResponseMapper.toResult(resultData, HttpStatus.OK, 'The order was successfully cancelled.')
     }
 }
