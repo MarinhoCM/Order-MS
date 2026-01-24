@@ -23,14 +23,14 @@ export class OrderService {
         if (params?.id) {
             data = await this.repository.getOrderById(params.id)
         } else if (params?.customerCode) {
-            data = await this.repository.getOrdersByCustomerCode(params.customerCode, skip, take)
+            data = await this.repository.getOrdersByCustomerCode(params.customerCode)
         } else if (params?.initialDate && params?.finalDate) {
             data = await this.repository.getOrdersByDates(params?.initialDate, params?.finalDate, skip, take)
         } else {
             data = await this.repository.getAll(skip, take)
         }
 
-        return ResponseMapper.toResult(data, HttpStatus.CREATED, 'The order was created successfully.')
+        return ResponseMapper.toResult(data, HttpStatus.OK, '')
     }
 
     async editOrder(id: number, data: PatchOrderParamsDto) {
