@@ -169,11 +169,9 @@ export class OrderRepository {
         })
     }
 
-    async getOrdersByCustomerCode(customerCode: number, skip: number, take: number) {
+    async getOrdersByCustomerCode(customerCode: number) {
         return await this.prisma.order.findMany({
-            where: { customerId: customerCode },
-            skip,
-            take
+            where: { customerId: customerCode }
         })
     }
 

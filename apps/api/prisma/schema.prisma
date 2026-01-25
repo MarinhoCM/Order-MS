@@ -98,12 +98,11 @@ model Product {
 }
 
 model Customer {
-  id       Int     @id @default(autoincrement())
-  name     String
-  password String
-  email    String  @unique
-  orders   Order[]
-  active   Boolean @default(true)
+  id     Int     @id @default(autoincrement())
+  name   String
+  email  String? @unique
+  orders Order[]
+  active Boolean @default(true)
 
   @@index([id, email])
   @@map("CLIENTE")
