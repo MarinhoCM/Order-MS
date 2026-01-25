@@ -1,4 +1,4 @@
-import { ResponseMapper } from "@api/src/common/mappers";
+import { ResponseMapper } from "@api/common/mappers";
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { CustomerRepository } from "../../database/repository/customer.repository";
 import { CustomerCreateDto, CustomerUpdateDto, GetCustomerParamsQueryDto } from "./dto/customer.dto";

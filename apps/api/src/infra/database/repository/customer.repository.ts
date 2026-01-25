@@ -1,4 +1,4 @@
-import { ICustomer } from "@api/src/common/interfaces/customer.interface";
+import { ICustomer } from "@api/common/interfaces/customer.interface";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 
@@ -14,7 +14,7 @@ export class CustomerRepository {
         })
     }
 
-    async update(id: number, customer: ICustomer) {
+    async update(id: number, customer: any) {
         return await this.prisma.customer.update({
             where: {
                 id

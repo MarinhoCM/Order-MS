@@ -1,5 +1,5 @@
 export interface ICustomer {
-    name?: string;
+    name: string;
     email?: string;
     active?: boolean;
 }
