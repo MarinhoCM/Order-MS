@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
@@ -7,13 +8,13 @@ export class ProductRepository {
         private readonly prisma: PrismaService
     ) { }
 
-    async create(product: any) {
+    async create(product: Prisma.ProductCreateInput) {
         return await this.prisma.product.create({
             data: product
         })
     }
 
-    async update(id: number, product: any) {
+    async update(id: number, product: Prisma.ProductUpdateInput) {
         return await this.prisma.product.update({
             where: {
                 id
@@ -22,7 +23,20 @@ export class ProductRepository {
         })
     }
 
-    async getCustomerById(id: number) {
+    async get(where: Prisma.ProductWhereInput, skip: number, take: number) {
+        const [data, total] = await this.prisma.$transaction([
+            this.prisma.product.findMany({ where, skip, take }),
+            this.prisma.product.count({ where }),
+        ]);
+
+        return {
+            data,
+            total,
+            pageSize: take,
+        };
+    }
+
+    async getProductById(id: number) {
         return await this.prisma.product.findFirst({
             where: {
                 id
@@ -30,17 +44,7 @@ export class ProductRepository {
         })
     }
 
-    async getCustomerByName(name: string) {
-        return await this.prisma.product.findFirst({
-            where: {
-                description: {
-                    contains: name
-                }
-            }
-        })
-    }
-
-    async getCustomerByCode(code: string) {
+    async getProductByCode(code: string) {
         return await this.prisma.product.findFirst({
             where: {
                 code
