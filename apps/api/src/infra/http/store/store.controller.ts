@@ -1,4 +1,5 @@
-import { Controller, Delete, Get, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { CreateStoreDto, UpdateStoreDto } from "./dto/store.dto";
 import { StoreService } from "./store.service";
 
 @Controller('store/v1')
@@ -8,14 +9,22 @@ export class StoreController {
     ) { }
 
     @Post()
-    async createStore() { }
+    async createStore(@Body() data: CreateStoreDto) {
+        return await this.service.create(data)
+    }
 
     @Get()
-    async getStore() { }
+    async getStore() {
+        return await this.service.search()
+    }
 
-    @Patch()
-    async editStore() { }
+    @Patch(':corporeCode')
+    async editStore(@Param('corporeCode') corporeCode: string, @Body() data: UpdateStoreDto) {
+        return await this.service.edit(corporeCode, data)
+    }
 
-    @Delete()
-    async removeStore() { }
+    @Delete(':corporeCode')
+    async removeStore(@Param('corporeCode') corporeCode: string) {
+        return await this.service.deactivate(corporeCode)
+    }
 }

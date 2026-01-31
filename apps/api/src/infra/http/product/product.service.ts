@@ -20,17 +20,18 @@ export class ProductService {
             .withCode(params.code)
             .withDescription(params.description)
             .withPrice(params.price)
-            .withSkuInfos(params.skuInfos);
+            .withSkuInfos(params.skuInfos)
+            .build();
 
         const skip = (params.page - 1) * params.limit
-        return await this.repository.get(query.build(), skip, params.limit)
+        return await this.repository.get(query, skip, params.limit)
     }
 
     async editProduct(code: string, data: UpdateProductDto) {
         const product = await this.repository.getProductByCode(code)
-    
+
         if (!product) throw new NotFoundException(`The product not found.`)
-        
+
         return await this.repository.update(product.id, data)
     }
 
