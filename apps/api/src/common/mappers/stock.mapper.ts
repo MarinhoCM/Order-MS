@@ -1,4 +1,4 @@
-import { CreateStockDto } from "@api/src/infra/http/stock/dto/stock.dto";
+import { CreateStockDto } from "@api/infra/http/stock/dto/stock.dto";
 import { Prisma } from "@prisma/client";
 
 export class StockMapper {

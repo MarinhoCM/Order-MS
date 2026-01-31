@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { PrismaService } from "./prisma/prisma.service";
 import { CustomerRepository, OrderRepository, StockMovementRepository, StockRepository } from "./repository";
 import { ProductRepository } from "./repository/product.repository";
+import { StoreRepository } from "./repository/store.repository";
 
 @Module({
     providers: [
@@ -10,7 +11,8 @@ import { ProductRepository } from "./repository/product.repository";
         ProductRepository,
         OrderRepository,
         StockMovementRepository,
-        StockRepository
+        StockRepository,
+        StoreRepository
     ],
     exports: [
         PrismaService,
@@ -18,7 +20,8 @@ import { ProductRepository } from "./repository/product.repository";
         ProductRepository,
         OrderRepository,
         StockMovementRepository,
-        StockRepository
+        StockRepository,
+        StoreRepository
     ]
 })
 export class DatabaseModule { }

@@ -23,7 +23,9 @@ export class StockRepository {
                     productId
                 }
             },
-            data
+            data: {
+                ammount: data.ammount
+            }
         })
     }
 

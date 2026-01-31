@@ -12,6 +12,10 @@ export class CreateStockDto {
 export class UpdateStockDto {
     @IsNumber()
     ammount: number;
+    @IsNumber()
+    product: number;
+    @IsNumber()
+    store: number;
 }
 
 export class QueryGetStockDto {

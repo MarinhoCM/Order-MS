@@ -1,4 +1,4 @@
-import { StockMapper } from "@api/src/common/mappers";
+import { StockMapper } from "@api/common/mappers";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { StockSearchBuilder } from "../../database/builders";
 import { StockRepository } from "../../database/repository";
@@ -26,8 +26,8 @@ export class StockService {
         return await this.stock.search(query, skip, params.limit)
     }
 
-    async updateStock(product: number, store: number, data: UpdateStockDto) {
-        const stock = this.stock.getStockByProductAndStore(product, store)
+    async updateStock(product: number, store: number, data: Pick<UpdateStockDto, "ammount">) {
+        const stock = await this.stock.getStockByProductAndStore(product, store)
         if (!stock) throw new NotFoundException(`The product ${product} has no found on store ${store}`)
 
         return await this.stock.update(product, store, data)
